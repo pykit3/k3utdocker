@@ -1,6 +1,6 @@
 _extends: gh-config
 
 repository:
-  description: no desc
+  description: unit test for python-docker
   homepage: https://blog.openacid.com
-  topics: tag1, tag2
+  topics: python, docke
