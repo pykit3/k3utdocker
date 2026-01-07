@@ -1,6 +1,0 @@
--r _building/requirements.txt
-
-
-k3ut>=0.1.15,<0.2
-docker>=4.5.0
-six>=1.14.0

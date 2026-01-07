@@ -1,12 +1,11 @@
-"""
-
-"""
+""" """
 
 # from .proc import CalledProcessError
 # from .proc import ProcError
 
-__version__ = "0.1.0"
-__name__ = "k3utdocker"
+from importlib.metadata import version
+
+__version__ = version("k3utdocker")
 
 from .utdocker import (
     get_client,
@@ -16,7 +15,7 @@ from .utdocker import (
     create_network,
     start_container,
     pull_image,
-    build_image
+    build_image,
 )
 
 
@@ -28,5 +27,5 @@ __all__ = [
     "create_network",
     "start_container",
     "pull_image",
-    "build_image"
+    "build_image",
 ]
