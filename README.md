@@ -1,7 +1,6 @@
 # k3utdocker
 
 [![Action-CI](https://github.com/pykit3/k3utdocker/actions/workflows/python-package.yml/badge.svg)](https://github.com/pykit3/k3utdocker/actions/workflows/python-package.yml)
-[![Build Status](https://travis-ci.com/pykit3/k3utdocker.svg?branch=master)](https://travis-ci.com/pykit3/k3utdocker)
 [![Documentation Status](https://readthedocs.org/projects/k3utdocker/badge/?version=stable)](https://k3utdocker.readthedocs.io/en/stable/?badge=stable)
 [![Package](https://img.shields.io/pypi/pyversions/k3utdocker)](https://pypi.org/project/k3utdocker)
 
