@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "k3utdocker"
-version = "0.1.1"
+version = "0.1.2"
 description = "Docker client utilities for unit testing"
 readme = "README.md"
 license = {text = "MIT"}
