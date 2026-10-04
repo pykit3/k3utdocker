@@ -23,16 +23,12 @@ import k3utdocker
 client = k3utdocker.get_client()
 
 # Start a container
-k3utdocker.start_container(
-    name='test-redis',
-    image='redis:latest',
-    port_bindings={6379: 6379}
-)
+k3utdocker.start_container(name="test-redis", image="redis:latest", port_bindings={6379: 6379})
 
 # Check if container exists
-if k3utdocker.does_container_exist('test-redis'):
-    k3utdocker.stop_container('test-redis')
-    k3utdocker.remove_container('test-redis')
+if k3utdocker.does_container_exist("test-redis"):
+    k3utdocker.stop_container("test-redis")
+    k3utdocker.remove_container("test-redis")
 ```
 
 ## API Reference

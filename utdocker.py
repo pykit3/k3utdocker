@@ -1,4 +1,5 @@
 import docker
+import docker.errors
 import docker.types
 import k3ut
 
@@ -33,7 +34,7 @@ def stop_container(*names):
     for name in names:
         try:
             dcli.api.stop(container=name)
-        except Exception as e:
+        except docker.errors.APIError as e:
             dd(repr(e), " while trying to stop docker container: " + repr(name))
 
 
@@ -43,12 +44,12 @@ def remove_container(*names):
     for name in names:
         try:
             dcli.api.kill(name)
-        except Exception as e:
+        except docker.errors.APIError as e:
             dd(repr(e) + " while killing container: " + repr(name))
 
         try:
             dcli.api.remove_container(name)
-        except Exception as e:
+        except docker.errors.APIError as e:
             dd(repr(e) + " while removing container: " + repr(name))
 
 
