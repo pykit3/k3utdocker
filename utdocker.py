@@ -125,7 +125,7 @@ def pull_image(image):
 def build_image(image, path):
     dcli = get_client()
 
-    rst = dcli.images(image)
+    rst = dcli.api.images(image)
     if len(rst) > 0:
         dd(image + " is ready")
         dd(rst)
