@@ -133,5 +133,10 @@ def build_image(image, path):
 
     dd("build: " + image + " from " + path)
 
-    for line in dcli.api.build(path=path, nocache=True, tag=image):
-        dd("build " + image + ":", line)
+    # A failed build still ends its stream normally, with a record that holds "error".
+    build_log = []
+    for chunk in dcli.api.build(path=path, nocache=True, tag=image, decode=True):
+        dd("build " + image + ":", chunk)
+        build_log.append(chunk)
+        if "error" in chunk:
+            raise docker.errors.BuildError(chunk["error"], build_log)

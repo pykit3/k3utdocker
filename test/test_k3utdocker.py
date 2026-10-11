@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from unittest import mock
 
+import docker.errors
 import docker.utils
 import k3ut
 
@@ -65,3 +66,27 @@ class TestPullImage(unittest.TestCase):
 
             self.assertEqual([mock.call(image)], dcli.api.pull.call_args_list, image)
             self.assertEqual(repository_tag, docker.utils.parse_repository_tag(image))
+
+
+class TestBuildImage(unittest.TestCase):
+    def test_build_image_raises_an_error_in_the_stream(self):
+        stream = [
+            {"stream": "Step 1/2 : FROM scratch\n"},
+            {"error": "boom", "errorDetail": {"message": "boom"}},
+        ]
+        dcli = mock.MagicMock()
+        dcli.api.images.return_value = []
+        dcli.api.build.return_value = iter(stream)
+
+        with (
+            mock.patch("k3utdocker.utdocker.get_client", return_value=dcli),
+            self.assertRaises(docker.errors.BuildError) as ctx,
+        ):
+            k3utdocker.build_image("k3utdocker-test:latest", "/path")
+
+        self.assertEqual(
+            [mock.call(path="/path", nocache=True, tag="k3utdocker-test:latest", decode=True)],
+            dcli.api.build.call_args_list,
+        )
+        self.assertEqual("boom", ctx.exception.msg)
+        self.assertEqual(stream, ctx.exception.build_log)
