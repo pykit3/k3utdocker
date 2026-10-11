@@ -1,6 +1,7 @@
 import os
 import tempfile
 import unittest
+import uuid
 from unittest import mock
 
 import docker.errors
@@ -34,8 +35,9 @@ class TestK3utdocker(unittest.TestCase):
         pass
 
     def test_build_image(self):
-        # A Dockerfile that starts FROM scratch builds without a download.
-        image = "k3utdocker-test-build:latest"
+        # A Dockerfile that starts FROM scratch builds without a download. A unique name keeps a leftover image of
+        # another run from making build_image() skip the build.
+        image = f"k3utdocker-test-build-{uuid.uuid4().hex}:latest"
         with tempfile.TemporaryDirectory() as path:
             with open(os.path.join(path, "Dockerfile"), "w") as f:
                 f.write("FROM scratch\nLABEL k3utdocker=test\n")
