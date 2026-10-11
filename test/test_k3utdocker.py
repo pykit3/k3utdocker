@@ -1,7 +1,9 @@
 import os
 import tempfile
 import unittest
+from unittest import mock
 
+import docker.utils
 import k3ut
 
 import k3utdocker
@@ -44,3 +46,22 @@ class TestK3utdocker(unittest.TestCase):
         self.assertEqual([image], tags)
 
         dcli.api.remove_image(image)
+
+
+class TestPullImage(unittest.TestCase):
+    def test_pull_image_passes_the_whole_reference(self):
+        # The second item is how pull() of the SDK splits the reference.
+        cases = (
+            ("zookeeper:3.4.10", ("zookeeper", "3.4.10")),
+            ("busybox", ("busybox", None)),
+            ("localhost:5000/example:tag", ("localhost:5000/example", "tag")),
+            ("busybox@sha256:" + "a" * 64, ("busybox", "sha256:" + "a" * 64)),
+        )
+        for image, repository_tag in cases:
+            dcli = mock.MagicMock()
+            dcli.api.images.return_value = []
+            with mock.patch("k3utdocker.utdocker.get_client", return_value=dcli):
+                k3utdocker.pull_image(image)
+
+            self.assertEqual([mock.call(image)], dcli.api.pull.call_args_list, image)
+            self.assertEqual(repository_tag, docker.utils.parse_repository_tag(image))

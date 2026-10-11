@@ -117,8 +117,8 @@ def pull_image(image):
         dd(rst)
         return
 
-    # 'daocloud.io/zookeeper:3.4.10' --> ('daocloud.io/zookeeper', '3.4.10')
-    rst = dcli.api.pull(*image.split(":"))
+    # pull() splits the tag or digest off the reference itself, after any registry port.
+    rst = dcli.api.pull(image)
     dd(rst)
 
 
