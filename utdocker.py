@@ -15,7 +15,7 @@ net_config = {
 
 
 def get_client():
-    dcli = docker.DockerClient(base_url="unix://var/run/docker.sock")
+    dcli = docker.from_env()
     return dcli
 
 

@@ -34,6 +34,12 @@ class TestK3utdocker(unittest.TestCase):
     def test_procerror(self):
         pass
 
+    def test_get_client_reads_docker_host(self):
+        # No daemon listens on this socket, so only a client that ignores DOCKER_HOST can start.
+        docker_host = {"DOCKER_HOST": "unix:///nonexistent/docker.sock"}
+        with mock.patch.dict(os.environ, docker_host), self.assertRaises(docker.errors.DockerException):
+            k3utdocker.get_client()
+
     def test_build_image(self):
         # A Dockerfile that starts FROM scratch builds without a download. A unique name keeps a leftover image of
         # another run from making build_image() skip the build.
